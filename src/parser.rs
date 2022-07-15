@@ -4,6 +4,8 @@ use std::{
     thread, time,
 };
 
+use colored::Colorize;
+
 #[derive(Default)]
 struct ParserCounts {
     bytes: i32,
@@ -13,13 +15,17 @@ struct ParserCounts {
 
 impl fmt::Display for ParserCounts {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{} {} {}", self.lines, self.words, self.bytes)
+        write!(
+            f,
+            "{} {} {}",
+            self.lines.to_string().green(),
+            self.words.to_string().blue(),
+            self.bytes.to_string().red()
+        )
     }
 }
 
 pub fn parse(file: &str) {
-    println!("Parsing file: {}", file);
-
     let mut counts = ParserCounts::default();
 
     for _ in 0..100 {
@@ -27,8 +33,10 @@ pub fn parse(file: &str) {
         counts.words += 1;
         counts.lines += 1;
 
-        print!("\r{}", counts);
+        print!("\r{} {}", counts, file);
         io::stdout().flush().unwrap();
         thread::sleep(time::Duration::from_millis(16));
     }
+
+    println!();
 }
