@@ -1,5 +1,5 @@
 <h1 align="center">WURDS</h1>
-<h4 align="center">Rust rewrite of `wc` with an interactive count-up.</h4>
+<h4 align="center">Rust rewrite of <i>wc</i> with an interactive count-up.</h4>
 
 ## Screenshots
 > TODO: example video
