@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/logo.svg" width="150" alt="logo"></p>
+<h1 align="center">WURDS</h1>
 <h4 align="center">Rust rewrite of `wc` with an interactive count-up.</h4>
 
 ## Screenshots
