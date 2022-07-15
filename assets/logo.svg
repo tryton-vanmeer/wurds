@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="754" height="204" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <text font-family="monospace" x="0" y="200" font-size="256">
+        W
+    </text>
+    <text font-family="monospace" x="153" y="200" fill="#5454ff" font-size="256">
+        U
+    </text>
+    <text font-family="monospace" x="307" y="200" fill="#f74c00" font-size="256">
+        R
+    </text>
+    <text font-family="monospace" x="461" y="200" font-size="256">
+        D
+    </text>
+    <text font-family="monospace" x="615" y="200" fill="#f74c00" font-size="256">
+        S
+    </text>
+</svg>
