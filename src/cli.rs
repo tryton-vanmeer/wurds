@@ -1,3 +1,4 @@
+use crate::parser;
 use clap::{App, Arg};
 
 extern crate clap;
@@ -29,5 +30,5 @@ pub fn run() {
         )
         .get_matches();
 
-    println!("Using input file: {}", matches.value_of("FILE").unwrap());
+    parser::parse(matches.value_of("FILE").unwrap());
 }
