@@ -6,6 +6,12 @@
                 fill: #FFFFFF;
             }
         }
+
+        @media (prefers-color-scheme: light) {
+            .base {
+                fill: #000000;
+            }
+        }
     </style>
     <text class="base" font-family="monospace" x="0" y="200" font-size="256">
         W
