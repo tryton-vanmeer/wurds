@@ -1,5 +1,3 @@
-<!-- # W<span style="color: #5454ff">U</span><span style="color: #f74c00">R</span>D<span style="color: #f74c00">S</span> -->
-
 <p align="center"><img src="assets/logo.svg" width="150" alt="logo"></p>
 <h4 align="center">Rust rewrite of `wc` with an interactive count-up.</h4>
 
