@@ -17,7 +17,7 @@ impl fmt::Display for ParserCounts {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "{} {} {}",
+            "\t{}\t{}\t{}",
             self.lines.to_string().green(),
             self.words.to_string().blue(),
             self.bytes.to_string().red()
@@ -33,7 +33,7 @@ pub fn parse(file: &str) {
         counts.words += 1;
         counts.lines += 1;
 
-        print!("\r{} {}", counts, file);
+        print!("\r{} \t{}", counts, file);
         io::stdout().flush().unwrap();
         thread::sleep(time::Duration::from_millis(16));
     }
