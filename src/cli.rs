@@ -30,5 +30,8 @@ pub fn run() {
         )
         .get_matches();
 
-    parser::parse(matches.value_of("FILE").unwrap());
+    match parser::parse(matches.value_of("FILE").unwrap()) {
+        Ok(()) => (),
+        Err(error) => panic!("Ran into an error parsing file: {:?}", error),
+    }
 }
