@@ -1,6 +1,7 @@
 use std::{
     fmt,
-    io::{self, Write},
+    fs::File,
+    io::{self, BufReader, Read, Write},
     thread, time,
 };
 
@@ -25,18 +26,35 @@ impl fmt::Display for ParserCounts {
     }
 }
 
-pub fn parse(file: &str) {
+pub fn parse(file: &str) -> io::Result<()> {
     let mut counts = ParserCounts::default();
 
-    for _ in 0..100 {
+    let f = File::open(file)?;
+    let mut reader = BufReader::new(f);
+    let mut buffer = Vec::new();
+    let mut previous = '0';
+
+    reader.read_to_end(&mut buffer)?;
+
+    for value in buffer {
         counts.bytes += 1;
-        counts.words += 1;
-        counts.lines += 1;
+
+        if (value as char).is_whitespace() && !previous.is_whitespace() {
+            counts.words += 1;
+        }
+
+        if value == ('\n' as u8) {
+            counts.lines += 1;
+        }
 
         print!("\r{} \t{}", counts, file);
+
         io::stdout().flush().unwrap();
         thread::sleep(time::Duration::from_millis(16));
+
+        previous = value as char;
     }
 
     println!();
+    Ok(())
 }
