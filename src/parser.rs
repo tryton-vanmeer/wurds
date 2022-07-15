@@ -50,7 +50,7 @@ pub fn parse(file: &str) -> io::Result<()> {
         print!("\r{} \t{}", counts, file);
 
         io::stdout().flush().unwrap();
-        thread::sleep(time::Duration::from_millis(16));
+        thread::sleep(time::Duration::from_millis(8));
 
         previous = value as char;
     }
