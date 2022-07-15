@@ -2,7 +2,8 @@
 <h4 align="center">Rust rewrite of <i>wc</i> with an interactive count-up.</h4>
 
 ## Screenshots
-> TODO: example video
+
+[![asciicast](https://asciinema.org/a/F14suyrc4yk82du4hPMjT02sR.svg)](https://asciinema.org/a/F14suyrc4yk82du4hPMjT02sR)
 
 ## License
 
