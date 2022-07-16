@@ -37,11 +37,11 @@ fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
     return Ok(buffer);
 }
 
-pub fn parse(file: &str) -> io::Result<()> {
+pub fn parse(file: String) -> io::Result<()> {
     let mut counts = ParserCounts::default();
     let mut previous = '0';
 
-    let buffer = read_file_into_buffer(file)?;
+    let buffer = read_file_into_buffer(&file)?;
 
     for value in buffer {
         counts.bytes += 1;
