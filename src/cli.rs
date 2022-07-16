@@ -6,13 +6,13 @@ extern crate clap;
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 struct Cli {
-    #[clap(long = "bytes", short = 'c', action)]
+    #[clap(long = "bytes", short = 'c', help = "print the byte counts", action)]
     bytes: bool,
 
-    #[clap(long = "words", short = 'w', action)]
+    #[clap(long = "words", short = 'w', help = "print the word counts", action)]
     words: bool,
 
-    #[clap(long = "lines", short = 'l', action)]
+    #[clap(long = "lines", short = 'l', help = "print the line counts", action)]
     lines: bool,
 
     #[clap(required = true, value_parser)]
