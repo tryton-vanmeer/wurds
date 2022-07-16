@@ -7,6 +7,7 @@ use std::{
 
 use colored::Colorize;
 
+#[derive(Default)]
 pub struct ParserOpts {
     pub bytes: bool,
     pub words: bool,
@@ -15,6 +16,7 @@ pub struct ParserOpts {
 
 #[derive(Default)]
 struct ParserCounts {
+    opts: ParserOpts,
     bytes: i32,
     words: i32,
     lines: i32,
@@ -22,13 +24,21 @@ struct ParserCounts {
 
 impl fmt::Display for ParserCounts {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "\t{}\t{}\t{}",
-            self.lines.to_string().green(),
-            self.words.to_string().blue(),
-            self.bytes.to_string().red()
-        )
+        let mut output = String::from("");
+
+        if self.opts.lines {
+            output.push_str(&format!("\t{}", self.lines.to_string().green()));
+        }
+
+        if self.opts.words {
+            output.push_str(&format!("\t{}", self.words.to_string().blue()));
+        }
+
+        if self.opts.bytes {
+            output.push_str(&format!("\t{}", self.bytes.to_string().red()));
+        }
+
+        write!(f, "{}", output)
     }
 }
 
@@ -44,7 +54,10 @@ fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
 }
 
 pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
-    let mut counts = ParserCounts::default();
+    let mut counts = ParserCounts {
+        opts,
+        ..Default::default()
+    };
     let mut previous = '0';
 
     let buffer = read_file_into_buffer(&file)?;
