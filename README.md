@@ -5,6 +5,25 @@
 
 [![asciicast](https://asciinema.org/a/F14suyrc4yk82du4hPMjT02sR.svg)](https://asciinema.org/a/F14suyrc4yk82du4hPMjT02sR)
 
+## Usage
+
+```
+wurds 1.0.0
+
+USAGE:
+    wurds [OPTIONS] <FILE>
+
+ARGS:
+    <FILE>
+
+OPTIONS:
+    -c, --bytes      print the byte counts
+    -h, --help       Print help information
+    -l, --lines      print the line counts
+    -V, --version    Print version information
+    -w, --words      print the word counts
+```
+
 ## License
 
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
