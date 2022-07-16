@@ -21,8 +21,23 @@ struct Cli {
 
 pub fn run() {
     let args = Cli::parse();
+    let opts: parser::ParserOpts;
 
-    match parser::parse(args.file) {
+    if !args.bytes && !args.words && !args.lines {
+        opts = parser::ParserOpts {
+            bytes: true,
+            words: true,
+            lines: true,
+        }
+    } else {
+        opts = parser::ParserOpts {
+            bytes: args.bytes,
+            words: args.words,
+            lines: args.lines,
+        };
+    }
+
+    match parser::parse(args.file, opts) {
         Ok(()) => (),
         Err(error) => panic!("Ran into an error parsing file: {:?}", error),
     }

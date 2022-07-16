@@ -7,6 +7,12 @@ use std::{
 
 use colored::Colorize;
 
+pub struct ParserOpts {
+    pub bytes: bool,
+    pub words: bool,
+    pub lines: bool,
+}
+
 #[derive(Default)]
 struct ParserCounts {
     bytes: i32,
@@ -37,7 +43,7 @@ fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
     return Ok(buffer);
 }
 
-pub fn parse(file: String) -> io::Result<()> {
+pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
     let mut counts = ParserCounts::default();
     let mut previous = '0';
 
