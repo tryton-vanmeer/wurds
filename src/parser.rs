@@ -26,15 +26,22 @@ impl fmt::Display for ParserCounts {
     }
 }
 
-pub fn parse(file: &str) -> io::Result<()> {
-    let mut counts = ParserCounts::default();
+fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
+    let file = File::open(path)?;
 
-    let f = File::open(file)?;
-    let mut reader = BufReader::new(f);
+    let mut reader = BufReader::new(file);
     let mut buffer = Vec::new();
-    let mut previous = '0';
 
     reader.read_to_end(&mut buffer)?;
+
+    return Ok(buffer);
+}
+
+pub fn parse(file: &str) -> io::Result<()> {
+    let mut counts = ParserCounts::default();
+    let mut previous = '0';
+
+    let buffer = read_file_into_buffer(file)?;
 
     for value in buffer {
         counts.bytes += 1;
