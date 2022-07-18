@@ -1,3 +1,5 @@
+use std::io;
+
 use crate::parser;
 use clap::Parser;
 
@@ -15,11 +17,11 @@ struct Cli {
     #[clap(long = "lines", short = 'l', help = "print the line counts", action)]
     lines: bool,
 
-    #[clap(required = true, value_parser)]
-    file: String,
+    #[clap(value_parser)]
+    file: Option<String>,
 }
 
-pub fn run() {
+pub fn run() -> io::Result<()> {
     let args = Cli::parse();
     let opts: parser::ParserOpts;
 
@@ -37,8 +39,8 @@ pub fn run() {
         };
     }
 
-    match parser::parse(args.file, opts) {
-        Ok(()) => (),
-        Err(error) => panic!("Ran into an error parsing file: {:?}", error),
+    match args.file {
+        Some(value) => parser::parse(value, opts),
+        None => parser::parse(String::from("-"), opts),
     }
 }
