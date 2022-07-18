@@ -50,7 +50,7 @@ fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
 
     reader.read_to_end(&mut buffer)?;
 
-    return Ok(buffer);
+    Ok(buffer)
 }
 
 pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
