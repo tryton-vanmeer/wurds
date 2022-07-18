@@ -8,10 +8,10 @@
 ## Usage
 
 ```
-wurds 1.0.0
+wurds 1.1.0
 
 USAGE:
-    wurds [OPTIONS] <FILE>
+    wurds [OPTIONS] [FILE]
 
 ARGS:
     <FILE>
