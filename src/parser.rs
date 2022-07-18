@@ -53,14 +53,28 @@ fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
+fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
+    let mut buffer = Vec::new();
+
+    io::stdin().read_to_end(&mut buffer)?;
+
+    Ok(buffer)
+}
+
 pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
     let mut counts = ParserCounts {
         opts,
         ..Default::default()
     };
-    let mut previous = '0';
 
-    let buffer = read_file_into_buffer(&file)?;
+    let mut previous = '0';
+    let buffer: Vec<u8>;
+
+    if file.eq("-") {
+        buffer = read_stdin_into_buffer()?;
+    } else {
+        buffer = read_file_into_buffer(&file)?;
+    }
 
     for value in buffer {
         counts.bytes += 1;
