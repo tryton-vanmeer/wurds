@@ -68,13 +68,12 @@ pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
     };
 
     let mut previous = '0';
-    let buffer: Vec<u8>;
 
-    if file.eq("-") {
-        buffer = read_stdin_into_buffer()?;
+    let buffer: Vec<u8> = if file.eq("-") {
+        read_stdin_into_buffer()?
     } else {
-        buffer = read_file_into_buffer(&file)?;
-    }
+        read_file_into_buffer(&file)?
+    };
 
     for value in buffer {
         counts.bytes += 1;
