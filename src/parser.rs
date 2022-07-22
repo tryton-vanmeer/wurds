@@ -83,7 +83,7 @@ pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
             counts.words += 1;
         }
 
-        if value == ('\n' as u8) {
+        if value == (b'\n') {
             counts.lines += 1;
         }
 
