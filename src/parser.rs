@@ -5,6 +5,8 @@ use std::{
     thread, time,
 };
 
+use std::fmt::Write as _;
+
 use colored::Colorize;
 
 #[derive(Default)]
@@ -27,15 +29,15 @@ impl fmt::Display for ParserCounts {
         let mut output = String::from("");
 
         if self.opts.lines {
-            output.push_str(&format!("\t{}", self.lines.to_string().green()));
+            write!(output, "\t{}", self.lines.to_string().green())?;
         }
 
         if self.opts.words {
-            output.push_str(&format!("\t{}", self.words.to_string().blue()));
+            write!(output, "\t{}", self.words.to_string().blue())?;
         }
 
         if self.opts.bytes {
-            output.push_str(&format!("\t{}", self.bytes.to_string().red()));
+            write!(output, "\t{}", self.bytes.to_string().red())?;
         }
 
         write!(f, "{}", output)
