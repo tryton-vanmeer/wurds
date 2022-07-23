@@ -76,26 +76,29 @@ pub fn parse(
         ..Default::default()
     };
 
-    let mut previous = '0';
-
     let buffer: Vec<u8> = if file.eq("-") {
         read_stdin_into_buffer()?
     } else {
         read_file_into_buffer(&file)?
     };
 
-    for value in buffer {
+    let mut peekable_buffer = buffer.iter().peekable();
+    let mut previous = '0';
+
+    while let Some(value) = peekable_buffer.next() {
         counts.bytes += 1;
 
-        if (value as char).is_whitespace() && !previous.is_whitespace() {
+        if (*value as char).is_whitespace() && !previous.is_whitespace() {
             counts.words += 1;
         }
 
-        if value == (b'\n') {
+        if *value == (b'\n') {
             counts.lines += 1;
+        } else if peekable_buffer.peek().is_none() && !(*value as char).is_whitespace() {
+            counts.words += 1;
         }
 
-        previous = value as char;
+        previous = *value as char;
 
         callback(&counts);
     }
