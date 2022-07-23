@@ -18,6 +18,7 @@ pub struct ParserOpts {
 #[derive(Default)]
 pub struct ParserCounts {
     opts: ParserOpts,
+    filename: String,
     bytes: i32,
     words: i32,
     lines: i32,
@@ -38,6 +39,8 @@ impl fmt::Display for ParserCounts {
         if self.opts.bytes {
             write!(output, "\t{}", self.bytes.to_string().red())?;
         }
+
+        write!(output, "\t{}", self.filename)?;
 
         write!(f, "{}", output)
     }
@@ -69,6 +72,7 @@ pub fn parse(
 ) -> io::Result<ParserCounts> {
     let mut counts = ParserCounts {
         opts,
+        filename: file.clone(),
         ..Default::default()
     };
 
