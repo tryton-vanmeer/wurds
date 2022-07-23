@@ -6,7 +6,8 @@ use clap::Parser;
 extern crate clap;
 
 #[derive(Parser)]
-#[clap(author, version, about, long_about = None)]
+#[clap(version = concat!("git-", env!("VERGEN_GIT_SHA_SHORT")))]
+#[clap(author, about, long_about = None)]
 struct Cli {
     #[clap(long = "bytes", short = 'c', help = "print the byte counts", action)]
     bytes: bool,
