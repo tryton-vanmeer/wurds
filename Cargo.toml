@@ -2,8 +2,12 @@
 name = "wurds"
 version = "1.1.0"
 edition = "2021"
-
+build = "build.rs"
 
 [dependencies]
 clap = { version = "3", features = ["derive"] }
 colored = "2"
+
+[build-dependencies]
+anyhow = "1"
+vergen = "6"
