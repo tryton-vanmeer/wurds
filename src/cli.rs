@@ -22,6 +22,10 @@ struct Cli {
     file: Option<String>,
 }
 
+fn output_parser_count(counts: &parser::ParserCounts) {
+    print!("\r{}", counts);
+}
+
 pub fn run() -> io::Result<()> {
     let args = Cli::parse();
 
@@ -40,8 +44,8 @@ pub fn run() -> io::Result<()> {
     };
 
     let _ = match args.file {
-        Some(value) => parser::parse(value, opts),
-        None => parser::parse(String::from("-"), opts),
+        Some(value) => parser::parse(value, opts, output_parser_count),
+        None => parser::parse(String::from("-"), opts, output_parser_count),
     };
 
     Ok(())

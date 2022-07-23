@@ -1,8 +1,7 @@
 use std::{
     fmt,
     fs::File,
-    io::{self, BufReader, Read, Write},
-    thread, time,
+    io::{self, BufReader, Read},
 };
 
 use std::fmt::Write as _;
@@ -63,7 +62,11 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
-pub fn parse(file: String, opts: ParserOpts) -> io::Result<ParserCounts> {
+pub fn parse(
+    file: String,
+    opts: ParserOpts,
+    callback: fn(&ParserCounts),
+) -> io::Result<ParserCounts> {
     let mut counts = ParserCounts {
         opts,
         ..Default::default()
@@ -88,10 +91,12 @@ pub fn parse(file: String, opts: ParserOpts) -> io::Result<ParserCounts> {
             counts.lines += 1;
         }
 
-        print!("\r{} \t{}", counts, file);
+        callback(&counts);
 
-        io::stdout().flush().unwrap();
-        thread::sleep(time::Duration::from_millis(8));
+        // print!("\r{} \t{}", counts, file);
+
+        // io::stdout().flush().unwrap();
+        // thread::sleep(time::Duration::from_millis(8));
 
         previous = value as char;
     }
