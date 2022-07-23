@@ -105,3 +105,17 @@ pub fn parse(
 
     Ok(counts)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parser() {
+        let counts = parse("LICENSE".to_string(), ParserOpts::default(), |_| {}).unwrap();
+
+        assert_eq!(counts.lines, 674);
+        assert_eq!(counts.words, 5644);
+        assert_eq!(counts.bytes, 35149);
+    }
+}
