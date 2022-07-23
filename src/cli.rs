@@ -39,8 +39,10 @@ pub fn run() -> io::Result<()> {
         }
     };
 
-    match args.file {
+    let _ = match args.file {
         Some(value) => parser::parse(value, opts),
         None => parser::parse(String::from("-"), opts),
-    }
+    };
+
+    Ok(())
 }

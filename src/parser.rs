@@ -17,7 +17,7 @@ pub struct ParserOpts {
 }
 
 #[derive(Default)]
-struct ParserCounts {
+pub struct ParserCounts {
     opts: ParserOpts,
     bytes: i32,
     words: i32,
@@ -63,7 +63,7 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
-pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
+pub fn parse(file: String, opts: ParserOpts) -> io::Result<ParserCounts> {
     let mut counts = ParserCounts {
         opts,
         ..Default::default()
@@ -97,5 +97,5 @@ pub fn parse(file: String, opts: ParserOpts) -> io::Result<()> {
     }
 
     println!();
-    Ok(())
+    Ok(counts)
 }
