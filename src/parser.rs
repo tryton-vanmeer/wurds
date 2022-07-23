@@ -95,16 +95,10 @@ pub fn parse(
             counts.lines += 1;
         }
 
-        callback(&counts);
-
-        // print!("\r{} \t{}", counts, file);
-
-        // io::stdout().flush().unwrap();
-        // thread::sleep(time::Duration::from_millis(8));
-
         previous = value as char;
+
+        callback(&counts);
     }
 
-    println!();
     Ok(counts)
 }

@@ -1,4 +1,6 @@
-use std::io;
+use std::io::{self, Write};
+use std::thread;
+use std::time;
 
 use crate::parser;
 use clap::Parser;
@@ -24,6 +26,9 @@ struct Cli {
 
 fn output_parser_count(counts: &parser::ParserCounts) {
     print!("\r{}", counts);
+
+    io::stdout().flush().unwrap();
+    thread::sleep(time::Duration::from_millis(8));
 }
 
 pub fn run() -> io::Result<()> {
@@ -48,5 +53,6 @@ pub fn run() -> io::Result<()> {
         None => parser::parse(String::from("-"), opts, output_parser_count),
     };
 
+    print!("");
     Ok(())
 }
