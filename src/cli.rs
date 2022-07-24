@@ -24,11 +24,16 @@ struct Cli {
     file: Vec<String>,
 }
 
-fn output_parser_count(counts: &parser::ParserCounts) {
-    print!("\r{}", counts);
+fn output_parser_count(counts: Option<&parser::ParserCounts>) {
+    match counts {
+        Some(counts) => {
+            print!("\r{}", counts);
 
-    io::stdout().flush().unwrap();
-    thread::sleep(time::Duration::from_millis(8));
+            io::stdout().flush().unwrap();
+            thread::sleep(time::Duration::from_millis(8));
+        }
+        None => println!(),
+    }
 }
 
 pub fn run() -> io::Result<()> {
@@ -50,6 +55,5 @@ pub fn run() -> io::Result<()> {
 
     parser::parse(args.file, opts, output_parser_count)?;
 
-    println!();
     Ok(())
 }

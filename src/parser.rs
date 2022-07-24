@@ -71,7 +71,7 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
 pub fn parse(
     files: Vec<String>,
     opts: ParserOpts,
-    callback: fn(&ParserCounts),
+    callback: fn(Option<&ParserCounts>),
 ) -> io::Result<Vec<ParserCounts>> {
     let mut counts: Vec<ParserCounts> = Vec::new();
 
@@ -114,9 +114,10 @@ pub fn parse(
 
             previous = *value as char;
 
-            callback(&count);
+            callback(Some(&count));
         }
 
+        callback(None);
         finished_counts.push(count);
     }
 
