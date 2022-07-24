@@ -2,6 +2,8 @@ use std::{
     fmt,
     fs::File,
     io::{self, BufReader, Read},
+    iter::Peekable,
+    slice::Iter,
 };
 
 use std::fmt::Write as _;
@@ -82,8 +84,8 @@ pub fn parse(
         read_file_into_buffer(&file)?
     };
 
-    let mut peekable_buffer = buffer.iter().peekable();
-    let mut previous = '0';
+    let mut peekable_buffer: Peekable<Iter<u8>> = buffer.iter().peekable();
+    let mut previous = ' ';
 
     while let Some(value) = peekable_buffer.next() {
         counts.bytes += 1;
