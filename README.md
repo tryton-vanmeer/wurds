@@ -8,13 +8,13 @@
 ## Usage
 
 ```
-wurds 1.1.0
+wurds git-7f26b90
 
 USAGE:
-    wurds [OPTIONS] [FILE]
+    wurds [OPTIONS] [FILE]...
 
 ARGS:
-    <FILE>
+    <FILE>...
 
 OPTIONS:
     -c, --bytes      print the byte counts
