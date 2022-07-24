@@ -53,6 +53,6 @@ pub fn run() -> io::Result<()> {
         None => parser::parse(String::from("-"), opts, output_parser_count),
     };
 
-    print!("");
+    println!();
     Ok(())
 }
