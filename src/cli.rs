@@ -40,11 +40,7 @@ pub fn run() -> io::Result<()> {
     let args = Cli::parse();
 
     let opts = if !args.bytes && !args.words && !args.lines {
-        parser::ParserOpts {
-            bytes: true,
-            words: true,
-            lines: true,
-        }
+        parser::ParserOpts::default()
     } else {
         parser::ParserOpts {
             bytes: args.bytes,

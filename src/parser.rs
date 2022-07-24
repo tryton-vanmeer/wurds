@@ -10,11 +10,21 @@ use std::fmt::Write as _;
 
 use colored::Colorize;
 
-#[derive(Default, Clone)]
+#[derive(Clone)]
 pub struct ParserOpts {
     pub bytes: bool,
     pub words: bool,
     pub lines: bool,
+}
+
+impl Default for ParserOpts {
+    fn default() -> Self {
+        ParserOpts {
+            bytes: true,
+            words: true,
+            lines: true,
+        }
+    }
 }
 
 #[derive(Default)]
