@@ -21,7 +21,7 @@ struct Cli {
     lines: bool,
 
     #[clap(value_parser)]
-    file: Option<String>,
+    file: Vec<String>,
 }
 
 fn output_parser_count(counts: &parser::ParserCounts) {
@@ -48,10 +48,7 @@ pub fn run() -> io::Result<()> {
         }
     };
 
-    let _ = match args.file {
-        Some(value) => parser::parse(value, opts, output_parser_count),
-        None => parser::parse(String::from("-"), opts, output_parser_count),
-    };
+    parser::parse(args.file, opts, output_parser_count)?;
 
     println!();
     Ok(())

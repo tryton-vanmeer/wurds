@@ -10,7 +10,7 @@ use std::fmt::Write as _;
 
 use colored::Colorize;
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct ParserOpts {
     pub bytes: bool,
     pub words: bool,
@@ -21,6 +21,7 @@ pub struct ParserOpts {
 pub struct ParserCounts {
     opts: ParserOpts,
     filename: String,
+    buffer: Vec<u8>,
     bytes: i32,
     words: i32,
     lines: i32,
@@ -48,7 +49,7 @@ impl fmt::Display for ParserCounts {
     }
 }
 
-fn read_file_into_buffer(path: &str) -> io::Result<Vec<u8>> {
+fn read_file_into_buffer(path: String) -> io::Result<Vec<u8>> {
     let file = File::open(path)?;
 
     let mut reader = BufReader::new(file);
@@ -68,44 +69,58 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
 }
 
 pub fn parse(
-    file: String,
+    files: Vec<String>,
     opts: ParserOpts,
     callback: fn(&ParserCounts),
-) -> io::Result<ParserCounts> {
-    let mut counts = ParserCounts {
-        opts,
-        filename: file.clone(),
-        ..Default::default()
-    };
+) -> io::Result<Vec<ParserCounts>> {
+    let mut counts: Vec<ParserCounts> = Vec::new();
 
-    let buffer: Vec<u8> = if file.eq("-") {
-        read_stdin_into_buffer()?
+    if files.is_empty() {
+        counts.push(ParserCounts {
+            opts,
+            filename: "-".into(),
+            buffer: read_stdin_into_buffer()?,
+            ..Default::default()
+        });
     } else {
-        read_file_into_buffer(&file)?
-    };
-
-    let mut peekable_buffer: Peekable<Iter<u8>> = buffer.iter().peekable();
-    let mut previous = ' ';
-
-    while let Some(value) = peekable_buffer.next() {
-        counts.bytes += 1;
-
-        if (*value as char).is_whitespace() && !previous.is_whitespace() {
-            counts.words += 1;
+        for file in files {
+            counts.push(ParserCounts {
+                opts: opts.clone(),
+                filename: String::from(&file),
+                buffer: read_file_into_buffer(file)?,
+                ..Default::default()
+            })
         }
-
-        if *value == (b'\n') {
-            counts.lines += 1;
-        } else if peekable_buffer.peek().is_none() && !(*value as char).is_whitespace() {
-            counts.words += 1;
-        }
-
-        previous = *value as char;
-
-        callback(&counts);
     }
 
-    Ok(counts)
+    let mut finished_counts: Vec<ParserCounts> = Vec::new();
+
+    for mut count in counts {
+        let mut peekable_buffer: Peekable<Iter<u8>> = count.buffer.iter().peekable();
+        let mut previous = ' ';
+
+        while let Some(value) = peekable_buffer.next() {
+            count.bytes += 1;
+
+            if (*value as char).is_whitespace() && !previous.is_whitespace() {
+                count.words += 1;
+            }
+
+            if *value == (b'\n') {
+                count.lines += 1;
+            } else if peekable_buffer.peek().is_none() && !(*value as char).is_whitespace() {
+                count.words += 1;
+            }
+
+            previous = *value as char;
+
+            callback(&count);
+        }
+
+        finished_counts.push(count);
+    }
+
+    Ok(finished_counts)
 }
 
 #[cfg(test)]
@@ -114,10 +129,12 @@ mod tests {
 
     #[test]
     fn test_parser() {
-        let counts = parse("LICENSE".to_string(), ParserOpts::default(), |_| {}).unwrap();
+        let files = vec!["LICENSE".to_string()];
+        let counts = parse(files, ParserOpts::default(), |_| {}).unwrap();
+        let count = &counts[0];
 
-        assert_eq!(counts.lines, 674);
-        assert_eq!(counts.words, 5644);
-        assert_eq!(counts.bytes, 35149);
+        assert_eq!(count.lines, 674);
+        assert_eq!(count.words, 5644);
+        assert_eq!(count.bytes, 35149);
     }
 }
