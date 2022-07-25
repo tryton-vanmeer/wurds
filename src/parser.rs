@@ -1,14 +1,9 @@
 use std::{
-    fmt,
     fs::File,
     io::{self, BufReader, Read},
     iter::Peekable,
     slice::Iter,
 };
-
-use std::fmt::Write as _;
-
-use colored::Colorize;
 
 #[derive(Clone)]
 pub struct ParserOpts {
@@ -29,34 +24,11 @@ impl Default for ParserOpts {
 
 #[derive(Default)]
 pub struct ParserCounts {
-    opts: ParserOpts,
-    filename: String,
     buffer: Vec<u8>,
-    bytes: i32,
-    words: i32,
-    lines: i32,
-}
-
-impl fmt::Display for ParserCounts {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut output = String::from("");
-
-        if self.opts.lines {
-            write!(output, "\t{}", self.lines.to_string().green())?;
-        }
-
-        if self.opts.words {
-            write!(output, "\t{}", self.words.to_string().blue())?;
-        }
-
-        if self.opts.bytes {
-            write!(output, "\t{}", self.bytes.to_string().red())?;
-        }
-
-        write!(output, "\t{}", self.filename)?;
-
-        write!(f, "{}", output)
-    }
+    pub filename: String,
+    pub bytes: i32,
+    pub words: i32,
+    pub lines: i32,
 }
 
 fn read_file_into_buffer(path: String) -> io::Result<Vec<u8>> {
@@ -78,16 +50,11 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
-pub fn parse(
-    files: Vec<String>,
-    opts: ParserOpts,
-    callback: fn(Option<&ParserCounts>),
-) -> io::Result<Vec<ParserCounts>> {
+pub fn parse(files: Vec<String>) -> io::Result<Vec<ParserCounts>> {
     let mut counts: Vec<ParserCounts> = Vec::new();
 
     if files.is_empty() {
         counts.push(ParserCounts {
-            opts,
             filename: "-".into(),
             buffer: read_stdin_into_buffer()?,
             ..Default::default()
@@ -95,7 +62,6 @@ pub fn parse(
     } else {
         for file in files {
             counts.push(ParserCounts {
-                opts: opts.clone(),
                 filename: String::from(&file),
                 buffer: read_file_into_buffer(file)?,
                 ..Default::default()
@@ -124,10 +90,10 @@ pub fn parse(
 
             previous = *value as char;
 
-            callback(Some(&count));
+            // callback(Some(&count));
         }
 
-        callback(None);
+        // callback(None);
         finished_counts.push(count);
     }
 
@@ -141,7 +107,7 @@ mod tests {
     #[test]
     fn test_parser() {
         let files = vec!["LICENSE".to_string()];
-        let counts = parse(files, ParserOpts::default(), |_| {}).unwrap();
+        let counts = parse(files).unwrap();
         let count = &counts[0];
 
         assert_eq!(count.lines, 674);
