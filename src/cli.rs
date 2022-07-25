@@ -1,6 +1,6 @@
 use std::io::{self, Write};
-use std::thread;
-use std::time;
+use std::thread::sleep;
+use std::time::Duration;
 
 use crate::parser;
 use clap::Parser;
@@ -24,18 +24,6 @@ struct Cli {
     file: Vec<String>,
 }
 
-fn output_parser_count(counts: Option<&parser::ParserCounts>) {
-    match counts {
-        Some(counts) => {
-            print!("\r{}", counts);
-
-            io::stdout().flush().unwrap();
-            thread::sleep(time::Duration::from_millis(8));
-        }
-        None => println!(),
-    }
-}
-
 pub fn run() -> io::Result<()> {
     let args = Cli::parse();
 
@@ -49,7 +37,17 @@ pub fn run() -> io::Result<()> {
         }
     };
 
-    parser::parse(args.file, opts, output_parser_count)?;
+    parser::parse(args.file, opts, |counts| {
+        match counts {
+            Some(counts) => {
+                print!("\r{}", counts);
+
+                io::stdout().flush().unwrap();
+                sleep(Duration::from_millis(8))
+            }
+            None => println!()
+        }
+    })?;
 
     Ok(())
 }
