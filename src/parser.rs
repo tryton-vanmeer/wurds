@@ -33,7 +33,10 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
-pub fn parse(files: Vec<String>) -> io::Result<Vec<ParserCounts>> {
+pub fn parse<F: Fn(Option<&ParserCounts>)>(
+    files: Vec<String>,
+    callback: F,
+) -> io::Result<Vec<ParserCounts>> {
     let mut counts: Vec<ParserCounts> = Vec::new();
 
     if files.is_empty() {
@@ -73,10 +76,10 @@ pub fn parse(files: Vec<String>) -> io::Result<Vec<ParserCounts>> {
 
             previous = *value as char;
 
-            // callback(Some(&count));
+            callback(Some(&count));
         }
 
-        // callback(None);
+        callback(None);
         finished_counts.push(count);
     }
 
@@ -90,7 +93,7 @@ mod tests {
     #[test]
     fn test_parser() {
         let files = vec!["LICENSE".to_string()];
-        let counts = parse(files).unwrap();
+        let counts = parse(files, |_| {}).unwrap();
         let count = &counts[0];
 
         assert_eq!(count.lines, 674);
