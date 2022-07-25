@@ -4,6 +4,7 @@ use std::time::Duration;
 
 use crate::parser;
 use clap::Parser;
+use colored::Colorize;
 
 extern crate clap;
 
@@ -27,26 +28,37 @@ struct Cli {
 pub fn run() -> io::Result<()> {
     let args = Cli::parse();
 
-    let opts = if !args.bytes && !args.words && !args.lines {
-        parser::ParserOpts::default()
-    } else {
-        parser::ParserOpts {
-            bytes: args.bytes,
-            words: args.words,
-            lines: args.lines,
-        }
-    };
+    parser::parse(args.file, |counts| match counts {
+        Some(counts) => {
+            print!("\r");
 
-    parser::parse(args.file, opts, |counts| {
-        match counts {
-            Some(counts) => {
-                print!("\r{}", counts);
+            if !args.lines && !args.words && !args.bytes {
+                print!(
+                    "\t{} \t{} \t{}",
+                    counts.lines.to_string().green(),
+                    counts.words.to_string().blue(),
+                    counts.bytes.to_string().red()
+                );
+            } else {
+                if args.lines {
+                    print!("\t{}", counts.lines.to_string().green());
+                }
 
-                io::stdout().flush().unwrap();
-                sleep(Duration::from_millis(8))
+                if args.words {
+                    print!("\t{}", counts.words.to_string().blue());
+                }
+
+                if args.bytes {
+                    print!("\t{}", counts.bytes.to_string().red());
+                }
             }
-            None => println!()
+
+            print!("\t{}", counts.filename);
+
+            io::stdout().flush().unwrap();
+            sleep(Duration::from_millis(8))
         }
+        None => println!(),
     })?;
 
     Ok(())
