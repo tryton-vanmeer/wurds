@@ -5,23 +5,6 @@ use std::{
     slice::Iter,
 };
 
-#[derive(Clone)]
-pub struct ParserOpts {
-    pub bytes: bool,
-    pub words: bool,
-    pub lines: bool,
-}
-
-impl Default for ParserOpts {
-    fn default() -> Self {
-        ParserOpts {
-            bytes: true,
-            words: true,
-            lines: true,
-        }
-    }
-}
-
 #[derive(Default)]
 pub struct ParserCounts {
     buffer: Vec<u8>,
