@@ -1,4 +1,4 @@
-#![warn(clippy::pedantic)]
+#![warn(clippy::all, clippy::pedantic, clippy::cargo)]
 
 use std::io;
 
