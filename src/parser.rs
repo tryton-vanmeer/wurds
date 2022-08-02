@@ -33,10 +33,7 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
-pub fn parse<F: Fn(Option<&Counts>)>(
-    files: Vec<String>,
-    callback: F,
-) -> io::Result<Vec<Counts>> {
+pub fn parse<F: Fn(Option<&Counts>)>(files: Vec<String>, callback: F) -> io::Result<Vec<Counts>> {
     let mut counts: Vec<Counts> = Vec::new();
 
     if files.is_empty() {
