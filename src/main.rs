@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic)]
+
 use std::io;
 
 mod cli;
