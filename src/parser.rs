@@ -51,7 +51,7 @@ pub fn parse<F: Fn(Option<&Counts>)>(
                 filename: String::from(&file),
                 buffer: read_file_into_buffer(file)?,
                 ..Default::default()
-            })
+            });
         }
     }
 
