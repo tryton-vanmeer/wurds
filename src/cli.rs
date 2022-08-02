@@ -56,7 +56,7 @@ pub fn run() -> io::Result<()> {
             print!("\t{}", counts.filename);
 
             io::stdout().flush().unwrap();
-            sleep(Duration::from_millis(8))
+            sleep(Duration::from_millis(8));
         }
         None => println!(),
     })?;
