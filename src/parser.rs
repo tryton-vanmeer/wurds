@@ -6,7 +6,7 @@ use std::{
 };
 
 #[derive(Default)]
-pub struct ParserCounts {
+pub struct Counts {
     buffer: Vec<u8>,
     pub filename: String,
     pub bytes: i32,
@@ -33,21 +33,21 @@ fn read_stdin_into_buffer() -> io::Result<Vec<u8>> {
     Ok(buffer)
 }
 
-pub fn parse<F: Fn(Option<&ParserCounts>)>(
+pub fn parse<F: Fn(Option<&Counts>)>(
     files: Vec<String>,
     callback: F,
-) -> io::Result<Vec<ParserCounts>> {
-    let mut counts: Vec<ParserCounts> = Vec::new();
+) -> io::Result<Vec<Counts>> {
+    let mut counts: Vec<Counts> = Vec::new();
 
     if files.is_empty() {
-        counts.push(ParserCounts {
+        counts.push(Counts {
             filename: "-".into(),
             buffer: read_stdin_into_buffer()?,
             ..Default::default()
         });
     } else {
         for file in files {
-            counts.push(ParserCounts {
+            counts.push(Counts {
                 filename: String::from(&file),
                 buffer: read_file_into_buffer(file)?,
                 ..Default::default()
@@ -55,7 +55,7 @@ pub fn parse<F: Fn(Option<&ParserCounts>)>(
         }
     }
 
-    let mut finished_counts: Vec<ParserCounts> = Vec::new();
+    let mut finished_counts: Vec<Counts> = Vec::new();
 
     for mut count in counts {
         let mut peekable_buffer: Peekable<Iter<u8>> = count.buffer.iter().peekable();
