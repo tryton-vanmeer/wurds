@@ -17,3 +17,6 @@ colored = "2"
 [build-dependencies]
 anyhow = "1"
 vergen = "6"
+
+[profile.release]
+lto = true
