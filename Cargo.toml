@@ -4,7 +4,6 @@ description = "Rust rewrite of wc with an interactive count-up."
 version = "1.1.0"
 repository = "https://github.com/tryton-vanmeer/wurds"
 edition = "2021"
-build = "build.rs"
 readme = "README.md"
 license-file = "LICENSE"
 keywords = ["wc"]
@@ -16,7 +15,6 @@ colored = "2"
 
 [build-dependencies]
 anyhow = "1"
-vergen = "6"
 
 [profile.release]
 strip = true
