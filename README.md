@@ -1,9 +1,9 @@
-<h1 align="center">WURDS</h1>
-<h4 align="center">Rust rewrite of <i>wc</i> with an interactive count-up.</h4>
+<div align="center">
+  <h1>WURDS</h1>
+  Rust rewrite of <i>wc</i> with an interactive count-up.
 
-## Screenshots
-
-[![asciicast](https://asciinema.org/a/YTYx1D1PRRrNsyALIYTG9zdVN.svg)](https://asciinema.org/a/YTYx1D1PRRrNsyALIYTG9zdVN)
+  ![screenshot](./assets/demo.gif)
+</div>
 
 ## Usage
 
